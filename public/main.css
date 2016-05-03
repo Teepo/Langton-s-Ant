@@ -28,11 +28,32 @@ td {
 td.black {
     background-color: #000;
 }
-td.ant {
+
+.ant {
     background-image: url("/public/images/ant.svg");
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: 2em;
+}
+
+.ant._90 {
+    transform: rotate(90deg);
+}
+.ant._180 {
+    transform: rotate(180deg);
+}
+.ant._270 {
+    transform: rotate(270deg);
+}
+
+.ant._-90 {
+    transform: rotate(-90deg);
+}
+.ant._-180 {
+    transform: rotate(-180deg);
+}
+.ant._-270 {
+    transform: rotate(-270deg);
 }
 
 .console {

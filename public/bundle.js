@@ -13,16 +13,21 @@ var Cell = React.createClass({
         };
     },
 
-    componentWillMount : function() {
+    componentDidUpdate : function() {
 
         if (this.props.App.state.ant.x == this.state.coords.x
            && this.props.App.state.ant.y == this.state.coords.y)
         {
-            this.props.App.setState({
-                currentCell : this
-            });
+            this.props.App.currentCell = this;
+        }
+    },
 
-            console.log('ANT FOUNDED');
+    componentDidMount : function() {
+
+        if (this.props.App.state.ant.x == this.state.coords.x
+           && this.props.App.state.ant.y == this.state.coords.y)
+        {
+            this.props.App.currentCell = this;
         }
     },
 
@@ -35,12 +40,12 @@ var Cell = React.createClass({
 
     render: function() {
 
-        var cellClassName = this.state.isBlack ? 'black' : 'white';
+        var cellClassName = this.state.isBlack ? 'black' : '';
 
         if (this.props.App.state.ant.x == this.state.coords.x
            && this.props.App.state.ant.y == this.state.coords.y)
         {
-            cellClassName += " ant";
+            cellClassName += " ant _" + this.props.App.state.ant.rotation;
         }
 
         return (<td className={cellClassName} onClick={this.onClick}></td>);
@@ -114,61 +119,101 @@ var Cell = React.createClass({
     getInitialState: function () {
 
         return {
-            gridSize : {
-                x : 11,
-                y : 11
+            gridSize: {
+                x : 30,
+                y : 30
             },
 
             ant : {
                 x : 5,
-                y : 5
+                y : 5,
+                rotation: 0,
             },
 
-            currentCell : null,
-
-            speed : 1000
+            speed : 100,
         };
     },
 
-    componentWillMount: function() {
-        console.log('APP MOUNT');
-    },
-
     componentDidMount: function() {
-        console.log('APP DID MOUNT');
+
+        this.timeoutHandler = setTimeout(this.draw, this.state.speed);
     },
 
     componentDidUpdate: function() {
-        console.log('APP DID UPDATE');
-    },
 
-    componentWillUpdate: function() {
-        console.log('APP WILL UPDATE');
+        this.timeoutHandler = setTimeout(this.draw, this.state.speed);
     },
 
     componentWillUnmount: function() {
-        console.log('APP UNMOUNT');
+        clearInterval(this.timeoutHandler);
     },
 
     draw: function() {
 
-        console.log('APP DRAW', this.state);
-
         var coords = this.state.ant;
 
-        if (this.state.currentCell.state.isBlack)
-            coords.x += 1;
-        else
-            coords.y += 1;
+        if (this.currentCell.state.isBlack)
+        {
+            if (this.state.ant.rotation == 0)
+            {
+                coords.y -= 1;
+                coords.rotation = -90;
+            }
+            else if (this.state.ant.rotation == -90)
+            {
+                coords.x -= 1;
+                coords.rotation = -180;
+            }
+            else if (this.state.ant.rotation == -180)
+            {
+                coords.y += 1;
+                coords.rotation = -270;
+            }
+            else
+            {
+                coords.x += 1;
+                coords.rotation = 0;
+            }
 
+        }
+        else
+        {
+            if (this.state.ant.rotation == 0)
+            {
+                coords.y += 1;
+                coords.rotation = 90;
+            }
+            else if (this.state.ant.rotation == 90)
+            {
+                coords.x += 1;
+                coords.rotation = 180;
+            }
+            else if (this.state.ant.rotation == 180)
+            {
+                coords.y -= 1;
+                coords.rotation = 270;
+            }
+            else
+            {
+                coords.x -= 1;
+                coords.rotation = 0;
+            }
+        }
+
+        // toggle cell color
+        var isBlack = this.currentCell.state.isBlack;
+
+        this.currentCell.setState({
+            isBlack: !isBlack
+        });
+
+        // move ant
         this.setState({
             ant : coords
         });
     },
 
     render: function() {
-
-        console.log('RENDER APP');
 
         return (
             <div>

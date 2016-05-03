@@ -12,16 +12,21 @@ var Cell = React.createClass({
         };
     },
 
-    componentWillMount : function() {
+    componentDidUpdate : function() {
 
         if (this.props.App.state.ant.x == this.state.coords.x
            && this.props.App.state.ant.y == this.state.coords.y)
         {
-            this.props.App.setState({
-                currentCell : this
-            });
+            this.props.App.currentCell = this;
+        }
+    },
 
-            console.log('ANT FOUNDED');
+    componentDidMount : function() {
+
+        if (this.props.App.state.ant.x == this.state.coords.x
+           && this.props.App.state.ant.y == this.state.coords.y)
+        {
+            this.props.App.currentCell = this;
         }
     },
 
@@ -34,12 +39,12 @@ var Cell = React.createClass({
 
     render: function() {
 
-        var cellClassName = this.state.isBlack ? 'black' : 'white';
+        var cellClassName = this.state.isBlack ? 'black' : '';
 
         if (this.props.App.state.ant.x == this.state.coords.x
            && this.props.App.state.ant.y == this.state.coords.y)
         {
-            cellClassName += " ant";
+            cellClassName += " ant _" + this.props.App.state.ant.rotation;
         }
 
         return (<td className={cellClassName} onClick={this.onClick}></td>);
