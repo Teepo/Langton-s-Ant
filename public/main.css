@@ -2,6 +2,7 @@ body {
     margin:  0;
     padding: 0;
 
+    font-family: Arial;
     font-size: 16px;
 }
 
@@ -68,4 +69,22 @@ td.black {
     background-color: #fff;
 
     text-align: center;
+}
+
+.console input {
+    margin-right: 50px;
+}
+
+.movementID {
+    position: absolute;
+    top: 62px;
+    left: 0;
+
+    padding: 10px 30px;
+
+    background-color: tomato;
+
+    font-size: 1em;
+    font-weight: 700;
+    color: #fff;
 }

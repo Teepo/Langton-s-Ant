@@ -1,11 +1,16 @@
 var App = React.createClass({
 
+    movementID     : 0,
+    movementLimit  : 10,
+    speed          : 1000,
+    timeoutHandler : null,
+
     getInitialState: function () {
 
         return {
             gridSize: {
-                x : 30,
-                y : 30
+                x : 11,
+                y : 11
             },
 
             ant : {
@@ -13,19 +18,23 @@ var App = React.createClass({
                 y : 5,
                 rotation: 0,
             },
-
-            speed : 100,
         };
     },
 
     componentDidMount: function() {
 
-        this.timeoutHandler = setTimeout(this.draw, this.state.speed);
+        this.timeoutHandler = setTimeout(this.draw, this.speed);
     },
 
     componentDidUpdate: function() {
 
-        this.timeoutHandler = setTimeout(this.draw, this.state.speed);
+        if (this.movementID >= this.movementLimit)
+        {
+            console.info('THE END !')
+            return false;
+        }
+
+        this.timeoutHandler = setTimeout(this.draw, this.speed);
     },
 
     componentWillUnmount: function() {
@@ -95,6 +104,8 @@ var App = React.createClass({
         this.setState({
             ant : coords
         });
+
+        this.movementID++;
     },
 
     render: function() {
@@ -103,6 +114,10 @@ var App = React.createClass({
             <div>
               <Console App={this} />
               <Grid    App={this} />
+
+              <div className="movementID">
+                {this.movementID}
+              </div>
             </div>
         );
     }

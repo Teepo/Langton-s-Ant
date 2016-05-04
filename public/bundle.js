@@ -103,7 +103,6 @@ var Cell = React.createClass({
 
                             <div className="coords">
                               X = <input type="number" name="x" value={App.state.gridSize.x} onChange={this.onChange} />
-                              &nbsp;
                               Y = <input type="number" name="y" value={App.state.gridSize.y} onChange={this.onChange} />
                             </div>
 
@@ -116,12 +115,17 @@ var Cell = React.createClass({
     }
 });var App = React.createClass({
 
+    movementID     : 0,
+    movementLimit  : 10,
+    speed          : 1000,
+    timeoutHandler : null,
+
     getInitialState: function () {
 
         return {
             gridSize: {
-                x : 30,
-                y : 30
+                x : 11,
+                y : 11
             },
 
             ant : {
@@ -129,19 +133,23 @@ var Cell = React.createClass({
                 y : 5,
                 rotation: 0,
             },
-
-            speed : 100,
         };
     },
 
     componentDidMount: function() {
 
-        this.timeoutHandler = setTimeout(this.draw, this.state.speed);
+        this.timeoutHandler = setTimeout(this.draw, this.speed);
     },
 
     componentDidUpdate: function() {
 
-        this.timeoutHandler = setTimeout(this.draw, this.state.speed);
+        if (this.movementID >= this.movementLimit)
+        {
+            console.info('THE END !')
+            return false;
+        }
+
+        this.timeoutHandler = setTimeout(this.draw, this.speed);
     },
 
     componentWillUnmount: function() {
@@ -211,6 +219,8 @@ var Cell = React.createClass({
         this.setState({
             ant : coords
         });
+
+        this.movementID++;
     },
 
     render: function() {
@@ -219,6 +229,10 @@ var Cell = React.createClass({
             <div>
               <Console App={this} />
               <Grid    App={this} />
+
+              <div className="movementID">
+                {this.movementID}
+              </div>
             </div>
         );
     }

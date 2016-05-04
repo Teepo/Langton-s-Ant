@@ -23,7 +23,6 @@ var Console = React.createClass({
 
                             <div className="coords">
                               X = <input type="number" name="x" value={App.state.gridSize.x} onChange={this.onChange} />
-                              &nbsp;
                               Y = <input type="number" name="y" value={App.state.gridSize.y} onChange={this.onChange} />
                             </div>
 
