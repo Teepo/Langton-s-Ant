@@ -92,9 +92,26 @@ var Cell = React.createClass({
 
     },
 
+    onPlayClickEvent: function() {
+
+        this.props.App.setState({
+            isPlay : !this.props.App.state.isPlay
+        });
+    },
+
+    onStopClickEvent: function() {
+
+        this.props.App.setState({
+            isPlay : false,
+            isStop : true
+        });
+    },
+
     render: function() {
 
         var App = this.props.App;
+
+        var playStateClassName = ((!this.props.App.state.isPlay) ? 'play' : 'pause') + "State state";
 
         return (<div className="console">
 
@@ -107,6 +124,8 @@ var Cell = React.createClass({
                             </div>
 
                             <div className="controls">
+                              <div className={playStateClassName} onClick={this.onPlayClickEvent}></div>
+                              <div className="stopState state"    onClick={this.onStopClickEvent}></div>
                             </div>
                         </div>
                     </div>
@@ -133,27 +152,32 @@ var Cell = React.createClass({
                 y : 5,
                 rotation: 0,
             },
+
+            isStop: true,
+            isPlay: true
         };
     },
 
     componentDidMount: function() {
 
-        this.timeoutHandler = setTimeout(this.draw, this.speed);
+        this.play();
     },
 
     componentDidUpdate: function() {
 
-        if (this.movementID >= this.movementLimit)
+        if ((this.movementID >= this.movementLimit)
+           || !this.state.isPlay)
         {
-            console.info('THE END !')
+            this.pause();
             return false;
         }
 
-        this.timeoutHandler = setTimeout(this.draw, this.speed);
+        this.play();
     },
 
     componentWillUnmount: function() {
-        clearInterval(this.timeoutHandler);
+
+        this.pause();
     },
 
     draw: function() {
@@ -221,6 +245,21 @@ var Cell = React.createClass({
         });
 
         this.movementID++;
+    },
+
+    /*** CONTROLS ***/
+    play: function() {
+        this.timeoutHandler = setTimeout(this.draw, this.speed);
+    },
+
+    pause: function() {
+        clearInterval(this.timeoutHandler);
+    },
+
+    stop: function() {
+        clearInterval(this.timeoutHandler);
+
+        this.render();
     },
 
     render: function() {

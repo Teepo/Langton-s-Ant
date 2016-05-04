@@ -12,9 +12,26 @@ var Console = React.createClass({
 
     },
 
+    onPlayClickEvent: function() {
+
+        this.props.App.setState({
+            isPlay : !this.props.App.state.isPlay
+        });
+    },
+
+    onStopClickEvent: function() {
+
+        this.props.App.setState({
+            isPlay : false,
+            isStop : true
+        });
+    },
+
     render: function() {
 
         var App = this.props.App;
+
+        var playStateClassName = ((!this.props.App.state.isPlay) ? 'play' : 'pause') + "State state";
 
         return (<div className="console">
 
@@ -27,6 +44,8 @@ var Console = React.createClass({
                             </div>
 
                             <div className="controls">
+                              <div className={playStateClassName} onClick={this.onPlayClickEvent}></div>
+                              <div className="stopState state"    onClick={this.onStopClickEvent}></div>
                             </div>
                         </div>
                     </div>

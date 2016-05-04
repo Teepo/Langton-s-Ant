@@ -18,27 +18,32 @@ var App = React.createClass({
                 y : 5,
                 rotation: 0,
             },
+
+            isStop: true,
+            isPlay: true
         };
     },
 
     componentDidMount: function() {
 
-        this.timeoutHandler = setTimeout(this.draw, this.speed);
+        this.play();
     },
 
     componentDidUpdate: function() {
 
-        if (this.movementID >= this.movementLimit)
+        if ((this.movementID >= this.movementLimit)
+           || !this.state.isPlay)
         {
-            console.info('THE END !')
+            this.pause();
             return false;
         }
 
-        this.timeoutHandler = setTimeout(this.draw, this.speed);
+        this.play();
     },
 
     componentWillUnmount: function() {
-        clearInterval(this.timeoutHandler);
+
+        this.pause();
     },
 
     draw: function() {
@@ -106,6 +111,21 @@ var App = React.createClass({
         });
 
         this.movementID++;
+    },
+
+    /*** CONTROLS ***/
+    play: function() {
+        this.timeoutHandler = setTimeout(this.draw, this.speed);
+    },
+
+    pause: function() {
+        clearInterval(this.timeoutHandler);
+    },
+
+    stop: function() {
+        clearInterval(this.timeoutHandler);
+
+        this.render();
     },
 
     render: function() {

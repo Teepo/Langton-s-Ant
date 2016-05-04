@@ -77,6 +77,47 @@ td.black {
     text-align: center;
 }
 
+.console .coords {
+    display: inline-block;
+}
+
+.controls {
+    float: right;
+}
+
+.controls .state {
+    display: inline-block;
+    background-repeat: no-repeat;
+    width: 1em;
+    height: 1em;
+    margin: 0 1em;
+    cursor: pointer;
+}
+
+.controls .playState {
+    background-image: url("/public/images/play.svg");
+}
+
+.controls .playState:hover {
+    background-image: url("/public/images/play_hover.svg");
+}
+
+.controls .pauseState {
+    background-image: url("/public/images/pause.svg");
+}
+
+.controls .pauseState:hover {
+    background-image: url("/public/images/pause_hover.svg");
+}
+
+.controls .stopState {
+    background-image: url("/public/images/square.svg");
+}
+
+.controls .stopState:hover {
+    background-image: url("/public/images/square_hover.svg");
+}
+
 .console input {
     margin-right: 50px;
 }
