@@ -49,30 +49,6 @@ var App = React.createClass({
         {
             if (this.state.ant.rotation == 0)
             {
-                coords.y += 1;
-                coords.rotation = 90;
-            }
-            else if (this.state.ant.rotation == 90)
-            {
-                coords.x += 1;
-                coords.rotation = 180;
-            }
-            else if (this.state.ant.rotation == 180)
-            {
-                coords.y -= 1;
-                coords.rotation = 270;
-            }
-            else
-            {
-                coords.x -= 1;
-                coords.rotation = 0;
-            }
-
-        }
-        else
-        {
-            if (this.state.ant.rotation == 0)
-            {
                 coords.y -= 1;
                 coords.rotation = -90;
             }
@@ -89,6 +65,30 @@ var App = React.createClass({
             else
             {
                 coords.x += 1;
+                coords.rotation = 0;
+            }
+
+        }
+        else
+        {
+            if (this.state.ant.rotation == 0)
+            {
+                coords.y += 1;
+                coords.rotation = 90;
+            }
+            else if (this.state.ant.rotation == 90)
+            {
+                coords.x += 1;
+                coords.rotation = 180;
+            }
+            else if (this.state.ant.rotation == 180)
+            {
+                coords.y -= 1;
+                coords.rotation = 270;
+            }
+            else
+            {
+                coords.x -= 1;
                 coords.rotation = 0;
             }
         }
