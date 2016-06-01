@@ -1,0 +1,9 @@
+{
+    "scripts" : {
+        "start" : "./node_modules/serve/bin/serve ./public/"
+    },
+    "dependencies" : {
+        "jade"  : "1.11.0",
+        "serve" : "1.4.0"
+    }
+}
