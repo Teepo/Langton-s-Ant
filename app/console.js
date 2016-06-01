@@ -9,29 +9,35 @@ var Console = React.createClass({
         this.props.App.setState({
             gridSize : coords
         });
+    },
 
+    onZoom: function(e) {
+        document.querySelector('.grid').style.zoom = parseInt(e.target.value) / 100;
     },
 
     onPlayClickEvent: function() {
 
-        this.props.App.setState({
-            isPlay : !this.props.App.state.isPlay
-        });
+        this.props.App.__proto__.isPlay = !this.props.App.__proto__.isPlay;
+
+        if (this.props.App.__proto__.isPlay)
+            this.props.App.play();
+    },
+
+    onNextClickEvent: function() {
+        this.props.App.play();
     },
 
     onStopClickEvent: function() {
 
-        this.props.App.setState({
-            isPlay : false,
-            isStop : true
-        });
+        this.props.App.isPlay = false;
+        this.props.App.isStop = true;
     },
 
     render: function() {
 
         var App = this.props.App;
 
-        var playStateClassName = ((!this.props.App.state.isPlay) ? 'play' : 'pause') + "State state";
+        var playStateClassName = ((!this.props.App.isPlay) ? 'play' : 'pause') + "State state";
 
         return (<div className="console">
 
@@ -44,8 +50,12 @@ var Console = React.createClass({
                             </div>
 
                             <div className="controls">
+
+                              <input type="range" value={this.props.App.zoom} onChange={this.onZoom} min="10" max="100" />
+
                               <div className={playStateClassName} onClick={this.onPlayClickEvent}></div>
                               <div className="stopState state"    onClick={this.onStopClickEvent}></div>
+                              <div className="nextState state"    onClick={this.onNextClickEvent}></div>
                             </div>
                         </div>
                     </div>

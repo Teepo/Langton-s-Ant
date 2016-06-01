@@ -1,5 +1,14 @@
 var Grid = React.createClass({
 
+    getInitialState: function() {
+        return {
+            gridSize: {
+                x : 11,
+                y : 11
+            }
+        };
+    },
+
     render: function() {
 
         return (<table className="grid">
