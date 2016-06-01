@@ -27,6 +27,7 @@ body {
 }
 
 td {
+    position: relative;
     padding: 20px;
     border: 1px solid #000;
     cursor: pointer;
@@ -37,7 +38,13 @@ td.black {
 }
 
 .ant {
-    background-image: url("/public/images/ant.svg");
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-image: url("/images/ant.svg");
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: 2em;
@@ -95,27 +102,27 @@ td.black {
 }
 
 .controls .playState {
-    background-image: url("/public/images/play.svg");
+    background-image: url("/images/play.svg");
 }
 
 .controls .playState:hover {
-    background-image: url("/public/images/play_hover.svg");
+    background-image: url("/images/play_hover.svg");
 }
 
 .controls .pauseState {
-    background-image: url("/public/images/pause.svg");
+    background-image: url("/images/pause.svg");
 }
 
 .controls .pauseState:hover {
-    background-image: url("/public/images/pause_hover.svg");
+    background-image: url("/images/pause_hover.svg");
 }
 
 .controls .stopState {
-    background-image: url("/public/images/square.svg");
+    background-image: url("/images/square.svg");
 }
 
 .controls .stopState:hover {
-    background-image: url("/public/images/square_hover.svg");
+    background-image: url("/images/square_hover.svg");
 }
 
 .console input {
