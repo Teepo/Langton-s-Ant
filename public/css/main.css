@@ -14,11 +14,13 @@ body {
 
 .table {
     display: table;
+
     width:   100%;
     height:  100%;
 }
 .table .cell {
     display:        table-cell;
+
     vertical-align: middle;
 }
 
@@ -28,9 +30,12 @@ body {
 
 td {
     position: relative;
+
     padding: 20px;
-    border: 1px solid #000;
+
     cursor: pointer;
+
+    border: 1px solid #000;
 }
 
 td.black {
@@ -40,9 +45,9 @@ td.black {
 .ant {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
 
     background-image: url("/images/ant.svg");
     background-repeat: no-repeat;
@@ -71,17 +76,16 @@ td.black {
 }
 
 .console {
-
     position: fixed;
     top:      0;
+
     width:    100%;
     height:   60px;
 
-    box-shadow: 1px 1px 1px #e0e0e0;
+    text-align: center;
 
     background-color: #fff;
-
-    text-align: center;
+    box-shadow: 1px 1px 1px #e0e0e0;
 }
 
 .console .coords {
@@ -94,11 +98,14 @@ td.black {
 
 .controls .state {
     display: inline-block;
-    background-repeat: no-repeat;
+
     width: 1em;
     height: 1em;
     margin: 0 1em;
+
     cursor: pointer;
+
+    background-repeat: no-repeat;
 }
 
 .controls .playState {
@@ -136,9 +143,9 @@ td.black {
 
     padding: 10px 30px;
 
+    color: #fff;
     background-color: tomato;
 
     font-size: 1em;
     font-weight: 700;
-    color: #fff;
 }
