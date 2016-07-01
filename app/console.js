@@ -40,9 +40,6 @@ var Console = React.createClass({
         });
     },
 
-    onChangeZoom: function(e) {
-    },
-
     onZoom: function(e) {
 
         // enter key
@@ -89,7 +86,7 @@ var Console = React.createClass({
 
                             <div className="controls">
 
-                              <input type="text" onKeyPress={this.onZoom} defaultValue={this.props.App.zoom} />
+                              ZOOM = <input type="text" onKeyPress={this.onZoom} defaultValue={this.props.App.zoom} />
 
                               <div className={playStateClassName} onClick={this.onPlayClickEvent}></div>
                               <div className="stopState state"    onClick={this.onStopClickEvent}></div>
