@@ -1,3 +1,5 @@
+import Cell from './Cell.jsx';
+
 var Row = React.createClass({
 
     getInitialState: function() {
@@ -15,3 +17,5 @@ var Row = React.createClass({
                 </tr>);
     }
 });
+
+module.exports = Row;

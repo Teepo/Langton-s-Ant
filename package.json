@@ -4,7 +4,7 @@
         "start"        : "npm run js_maker & npm run sass_watcher & npm run server",
 
         "server"       : "./node_modules/serve/bin/serve ./public/",
-        "js_maker"     : "fswatch -o ./ | xargs -n1 -I{} make",
+        "js_maker"     : "webpack --progress --colors --watch",
         "sass_watcher" : "sass --watch ./public/css/"
     },
     "dependencies" : {

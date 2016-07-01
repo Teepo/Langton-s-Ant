@@ -105,3 +105,5 @@ var Console = React.createClass({
                 </div>);
     }
 });
+
+module.exports = Console;

@@ -33,3 +33,5 @@ var Ant = React.createClass({
         return (<div className={__antClassName}></div>);
     }
 });
+
+module.exports = Ant;

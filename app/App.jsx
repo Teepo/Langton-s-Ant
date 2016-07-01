@@ -1,3 +1,6 @@
+import Grid    from './Grid.jsx';
+import Console from './Console.jsx';
+
 var App = React.createClass({
 
     /** COMPONENT REFERENCE **/

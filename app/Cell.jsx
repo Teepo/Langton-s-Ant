@@ -1,3 +1,5 @@
+import Ant from './Ant.jsx';
+
 var Cell = React.createClass({
 
     getInitialState: function() {
@@ -35,3 +37,5 @@ var Cell = React.createClass({
             </td>);
     }
 });
+
+module.exports = Cell;

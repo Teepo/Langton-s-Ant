@@ -1,3 +1,5 @@
+import Row from './Row.jsx';
+
 var Grid = React.createClass({
 
     getInitialState: function() {
@@ -20,3 +22,5 @@ var Grid = React.createClass({
                 </table>);
     }
 });
+
+module.exports = Grid;
