@@ -1,11 +1,27 @@
 var App = React.createClass({
 
+    /** COMPONENT REFERENCE **/
+
+    // <Cell /> list
+    cells : [],
+
+    // <Cell />
+    currentCell : null,
+
+    // <Ant />
+    ant : null,
+
+    // <Console />
+    console : null,
+
+    /** **/
+
     movementID     : 0,
     movementLimit  : 11000,
-    speed          : 1000,
+    speed          : 0,
     timeoutHandler : null,
 
-    zoom : 100,
+    zoom : 10,
 
     side: {
         TOP    : 0,
@@ -14,14 +30,15 @@ var App = React.createClass({
         LEFT   : 3
     },
 
-    isStop: false,
-    isPlay: true,
+    isStop: true,
+    isPlay: false,
 
     getInitialState: function() {
+
         return {
             gridSize: {
-                x : 11,
-                y : 11
+                x : 100,
+                y : 100
             }
         };
     },
@@ -53,35 +70,29 @@ var App = React.createClass({
 
     draw: function() {
 
-        console.log('APP DRAWING');
-
-        var coords = this.ant;
-
-        console.log('ANT COORDS', coords);
-
-        console.log('CURRENT CELL', this.currentCell);
+        var coords = this.ant.state;
 
         if (this.currentCell.state.isBlack)
         {
-            if (this.ant.side === this.side.TOP)
+            if (this.ant.state.side === this.side.TOP)
             {
                 coords.y        -= 1;
                 coords.rotation  = 270;
                 coords.side      = this.side.LEFT;
             }
-            else if (this.ant.side === this.side.RIGHT)
+            else if (this.ant.state.side === this.side.RIGHT)
             {
                 coords.x        -= 1;
                 coords.rotation  = 0;
                 coords.side      = this.side.TOP;
             }
-            else if (this.ant.side === this.side.BOTTOM)
+            else if (this.ant.state.side === this.side.BOTTOM)
             {
                 coords.y        += 1;
                 coords.rotation  = 90;
                 coords.side      = this.side.RIGHT;
             }
-            else if (this.ant.side === this.side.LEFT)
+            else if (this.ant.state.side === this.side.LEFT)
             {
                 coords.x        += 1;
                 coords.rotation  = 180;
@@ -90,25 +101,25 @@ var App = React.createClass({
         }
         else
         {
-            if (this.ant.side == this.side.TOP)
+            if (this.ant.state.side == this.side.TOP)
             {
                 coords.y        += 1;
                 coords.rotation  = 90;
                 coords.side      = this.side.RIGHT;
             }
-            else if (this.ant.side == this.side.RIGHT)
+            else if (this.ant.state.side == this.side.RIGHT)
             {
                 coords.x        += 1;
                 coords.rotation  = 180;
                 coords.side      = this.side.BOTTOM;
             }
-            else if (this.ant.side == this.side.BOTTOM)
+            else if (this.ant.state.side == this.side.BOTTOM)
             {
                 coords.y        -= 1;
                 coords.rotation  = 270;
                 coords.side      = this.side.LEFT;
             }
-            else if (this.ant.side === this.side.LEFT)
+            else if (this.ant.state.side === this.side.LEFT)
             {
                 coords.x        -= 1;
                 coords.rotation  = 0;
@@ -116,23 +127,36 @@ var App = React.createClass({
             }
         }
 
-        // toggle cell color
-        var isBlack = this.currentCell.state.isBlack;
-
+        // toggle old cell state
         this.currentCell.setState({
-            isBlack: !isBlack
+            isBlack   : !this.currentCell.state.isBlack,
+            antIsHere : false
+        });
+
+        // update new cell
+        this.cells[coords.x][coords.y].setState({
+            antIsHere : true
         });
 
         // move ant
-        this.ant = coords;
+        this.ant.setState({
+            x : coords.x,
+            y : coords.y,
+            rotation : coords.rotation,
+            side : coords.side,
+            currentCell : this.cells[coords.x][coords.y]
+        });
 
-        this.movementID++;
+        // update console
+        this.console.setState({
+            movementID : ++this.console.state.movementID
+        });
     },
 
     /******************************** CONTROLS ********************************/
 
     play: function() {
-        this.timeoutHandler = setTimeout(this.draw, this.speed);
+        this.timeoutHandler = setInterval(this.draw, this.speed);
     },
 
     pause: function() {
@@ -153,10 +177,6 @@ var App = React.createClass({
         return (<div>
                   <Console App={this} />
                   <Grid App={this} />
-
-                  <div className="movementID">
-                      {this.movementID}
-                  </div>
                 </div>);
     }
 });
