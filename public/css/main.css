@@ -148,16 +148,23 @@ td.black {
     margin-right: 50px;
 }
 
-.movementID {
+.time, .movementID {
     position: absolute;
-    top: 62px;
     left: 0;
 
     padding: 10px 30px;
 
     color: #fff;
-    background-color: tomato;
-
     font-size: 1em;
     font-weight: 700;
+}
+
+.time {
+    top: 62px;
+    background-color: #007EFF;
+}
+
+.movementID {
+    top: 98px;
+    background-color: tomato;
 }

@@ -108,13 +108,28 @@ var Row = React.createClass({
                     </tbody>
                 </table>);
     }
-});var Console = React.createClass({
+});String.prototype.toHHMMSS = function () {
+
+    var sec_num = parseInt(this, 10); // don't forget the second param
+    var hours   = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    if (hours   < 10) {hours   = "0" + hours;}
+    if (minutes < 10) {minutes = "0" + minutes;}
+    if (seconds < 10) {seconds = "0" + seconds;}
+
+    return hours + ':' + minutes + ':' + seconds;
+};
+
+var Console = React.createClass({
 
     getInitialState: function() {
 
         return {
-            movementID : 0,
-            movementLimit : 10000
+            movementID    : 0,
+            movementLimit : 10000,
+            timeElapsed   : 0
         };
     },
 
@@ -151,16 +166,17 @@ var Row = React.createClass({
 
         if (this.props.App.__proto__.isPlay)
             this.props.App.play();
+        else
+            this.props.App.pause();
     },
 
     onNextClickEvent: function() {
-        this.props.App.play();
+        this.props.App.nextState();
     },
 
     onStopClickEvent: function() {
 
-        this.props.App.isPlay = false;
-        this.props.App.isStop = true;
+        this.props.App.stop();
     },
 
     render: function() {
@@ -168,6 +184,8 @@ var Row = React.createClass({
         var App = this.props.App;
 
         var playStateClassName = ((!this.props.App.isPlay) ? 'play' : 'pause') + "State state";
+
+        var __time = ("" + this.state.timeElapsed).toHHMMSS();
 
         return (<div className="console">
 
@@ -193,6 +211,9 @@ var Row = React.createClass({
                   <div className="movementID">
                       {this.state.movementID}
                   </div>
+                  <div className="time">
+                      {__time}
+                  </div>
 
                 </div>);
     }
@@ -217,7 +238,9 @@ var Row = React.createClass({
     movementID     : 0,
     movementLimit  : 11000,
     speed          : 0,
+
     timeoutHandler : null,
+    timerHandler   : null,
 
     zoom : 10,
 
@@ -264,6 +287,13 @@ var Row = React.createClass({
     componentWillUnmount: function() {
 
         this.pause();
+    },
+
+    timer: function() {
+
+        this.console.setState({
+            timeElapsed : ++this.console.state.timeElapsed
+        });
     },
 
     draw: function() {
@@ -355,15 +385,25 @@ var Row = React.createClass({
 
     play: function() {
         this.timeoutHandler = setInterval(this.draw, this.speed);
+        this.timerHandler = setInterval(this.timer, 1000);
+    },
+
+    nextState: function() {
+        this.draw();
     },
 
     pause: function() {
         clearInterval(this.timeoutHandler);
+        clearInterval(this.timerHandler);
     },
 
     stop: function() {
 
         clearInterval(this.timeoutHandler);
+        clearInterval(this.timerHandler);
+
+        this.isPlay = false;
+        this.isStop = true;
 
         this.render();
     },

@@ -19,7 +19,9 @@ var App = React.createClass({
     movementID     : 0,
     movementLimit  : 11000,
     speed          : 0,
+
     timeoutHandler : null,
+    timerHandler   : null,
 
     zoom : 10,
 
@@ -66,6 +68,13 @@ var App = React.createClass({
     componentWillUnmount: function() {
 
         this.pause();
+    },
+
+    timer: function() {
+
+        this.console.setState({
+            timeElapsed : ++this.console.state.timeElapsed
+        });
     },
 
     draw: function() {
@@ -157,15 +166,25 @@ var App = React.createClass({
 
     play: function() {
         this.timeoutHandler = setInterval(this.draw, this.speed);
+        this.timerHandler = setInterval(this.timer, 1000);
+    },
+
+    nextState: function() {
+        this.draw();
     },
 
     pause: function() {
         clearInterval(this.timeoutHandler);
+        clearInterval(this.timerHandler);
     },
 
     stop: function() {
 
         clearInterval(this.timeoutHandler);
+        clearInterval(this.timerHandler);
+
+        this.isPlay = false;
+        this.isStop = true;
 
         this.render();
     },

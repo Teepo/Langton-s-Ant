@@ -1,10 +1,25 @@
+String.prototype.toHHMMSS = function () {
+
+    var sec_num = parseInt(this, 10); // don't forget the second param
+    var hours   = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    if (hours   < 10) {hours   = "0" + hours;}
+    if (minutes < 10) {minutes = "0" + minutes;}
+    if (seconds < 10) {seconds = "0" + seconds;}
+
+    return hours + ':' + minutes + ':' + seconds;
+};
+
 var Console = React.createClass({
 
     getInitialState: function() {
 
         return {
-            movementID : 0,
-            movementLimit : 10000
+            movementID    : 0,
+            movementLimit : 10000,
+            timeElapsed   : 0
         };
     },
 
@@ -41,16 +56,17 @@ var Console = React.createClass({
 
         if (this.props.App.__proto__.isPlay)
             this.props.App.play();
+        else
+            this.props.App.pause();
     },
 
     onNextClickEvent: function() {
-        this.props.App.play();
+        this.props.App.nextState();
     },
 
     onStopClickEvent: function() {
 
-        this.props.App.isPlay = false;
-        this.props.App.isStop = true;
+        this.props.App.stop();
     },
 
     render: function() {
@@ -58,6 +74,8 @@ var Console = React.createClass({
         var App = this.props.App;
 
         var playStateClassName = ((!this.props.App.isPlay) ? 'play' : 'pause') + "State state";
+
+        var __time = ("" + this.state.timeElapsed).toHHMMSS();
 
         return (<div className="console">
 
@@ -82,6 +100,9 @@ var Console = React.createClass({
 
                   <div className="movementID">
                       {this.state.movementID}
+                  </div>
+                  <div className="time">
+                      {__time}
                   </div>
 
                 </div>);
