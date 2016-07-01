@@ -1,5 +1,19 @@
 var Console = React.createClass({
 
+    getInitialState: function() {
+
+        return {
+            movementID : 0,
+            movementLimit : 10000
+        };
+    },
+
+    componentDidMount: function() {
+
+        // store reference in <App />
+        this.props.App.__proto__.console = this;
+    },
+
     onChange: function(e) {
 
         var coords = this.props.App.state.gridSize;
@@ -11,8 +25,14 @@ var Console = React.createClass({
         });
     },
 
+    onChangeZoom: function(e) {
+    },
+
     onZoom: function(e) {
-        document.querySelector('.grid').style.zoom = parseInt(e.target.value) / 100;
+
+        // enter key
+        if (e.charCode === 13)
+            document.querySelector('.grid').style.zoom = parseInt(e.target.value) / 100;
     },
 
     onPlayClickEvent: function() {
@@ -51,7 +71,7 @@ var Console = React.createClass({
 
                             <div className="controls">
 
-                              <input type="range" value={this.props.App.zoom} onChange={this.onZoom} min="10" max="100" />
+                              <input type="text" onKeyPress={this.onZoom} defaultValue={this.props.App.zoom} />
 
                               <div className={playStateClassName} onClick={this.onPlayClickEvent}></div>
                               <div className="stopState state"    onClick={this.onStopClickEvent}></div>
@@ -59,6 +79,10 @@ var Console = React.createClass({
                             </div>
                         </div>
                     </div>
+
+                  <div className="movementID">
+                      {this.state.movementID}
+                  </div>
 
                 </div>);
     }
