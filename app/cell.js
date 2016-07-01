@@ -23,10 +23,15 @@ var Cell = React.createClass({
 
     render: function() {
 
+        if (typeof this.props.App.__proto__.cells[this.state.coords.x] === "undefined")
+            this.props.App.__proto__.cells[this.state.coords.x] = [];
+
+        this.props.App.__proto__.cells[this.state.coords.x][this.state.coords.y] = this;
+
         var cellClassName = this.state.isBlack ? 'black' : '';
 
         return (<td className={cellClassName} onClick={this.onClick}>
-                  <Ant cell={this} />
-                </td>);
+            <Ant App={this.props.App} cell={this} />
+            </td>);
     }
 });
