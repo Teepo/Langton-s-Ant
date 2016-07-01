@@ -1,6 +1,11 @@
 {
     "scripts" : {
-        "start" : "./node_modules/serve/bin/serve ./public/"
+
+        "start"        : "npm run js_maker & npm run sass_watcher & npm run server",
+
+        "server"       : "./node_modules/serve/bin/serve ./public/",
+        "js_maker"     : "fswatch -o ./ | xargs -n1 -I{} make",
+        "sass_watcher" : "sass --watch ./public/css/"
     },
     "dependencies" : {
         "jade"  : "1.11.0",
