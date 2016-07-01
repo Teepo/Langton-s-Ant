@@ -4,25 +4,37 @@ var Ant = React.createClass({
     getInitialState: function() {
 
         return {
-            x : 5,
-            y : 5,
-            rotation: 0,
-            side: 0
+            x : 50,
+            y : 50,
+            rotation : 0,
+            side : 0,
+            currentCell : this.props.cell
         };
     },
 
     render: function() {
 
-        if (this.props.cell.state.coords.x == this.state.x
-           && this.props.cell.state.coords.y == this.state.y) {}
+        if ((this.state.currentCell.state.coords.x == this.state.x
+           && this.state.currentCell.state.coords.y == this.state.y)
+
+           || this.state.currentCell.state.antIsHere === true)
+        {
+            this.props.App.currentCell = this.state.currentCell;
+            this.props.App.currentCell.state.antIsHere = true;
+
+            this.props.App.ant = this;
+        }
         else
+        {
             return false;
+        }
 
         var __antClassName = "ant _" + this.state.rotation;
 
         return (<div className={__antClassName}></div>);
     }
-});var Cell = React.createClass({
+});
+var Cell = React.createClass({
 
     getInitialState: function() {
 
@@ -47,13 +59,19 @@ var Ant = React.createClass({
 
     render: function() {
 
+        if (typeof this.props.App.__proto__.cells[this.state.coords.x] === "undefined")
+            this.props.App.__proto__.cells[this.state.coords.x] = [];
+
+        this.props.App.__proto__.cells[this.state.coords.x][this.state.coords.y] = this;
+
         var cellClassName = this.state.isBlack ? 'black' : '';
 
         return (<td className={cellClassName} onClick={this.onClick}>
-                  <Ant cell={this} />
-                </td>);
+            <Ant App={this.props.App} cell={this} />
+            </td>);
     }
-});var Row = React.createClass({
+});
+var Row = React.createClass({
 
     getInitialState: function() {
         return {
@@ -74,8 +92,8 @@ var Ant = React.createClass({
     getInitialState: function() {
         return {
             gridSize: {
-                x : 11,
-                y : 11
+                x : 100,
+                y : 100
             }
         };
     },
@@ -92,6 +110,20 @@ var Ant = React.createClass({
     }
 });var Console = React.createClass({
 
+    getInitialState: function() {
+
+        return {
+            movementID : 0,
+            movementLimit : 10000
+        };
+    },
+
+    componentDidMount: function() {
+
+        // store reference in <App />
+        this.props.App.__proto__.console = this;
+    },
+
     onChange: function(e) {
 
         var coords = this.props.App.state.gridSize;
@@ -103,8 +135,14 @@ var Ant = React.createClass({
         });
     },
 
+    onChangeZoom: function(e) {
+    },
+
     onZoom: function(e) {
-        document.querySelector('.grid').style.zoom = parseInt(e.target.value) / 100;
+
+        // enter key
+        if (e.charCode === 13)
+            document.querySelector('.grid').style.zoom = parseInt(e.target.value) / 100;
     },
 
     onPlayClickEvent: function() {
@@ -143,7 +181,7 @@ var Ant = React.createClass({
 
                             <div className="controls">
 
-                              <input type="range" value={this.props.App.zoom} onChange={this.onZoom} min="10" max="100" />
+                              <input type="text" onKeyPress={this.onZoom} defaultValue={this.props.App.zoom} />
 
                               <div className={playStateClassName} onClick={this.onPlayClickEvent}></div>
                               <div className="stopState state"    onClick={this.onStopClickEvent}></div>
@@ -152,16 +190,36 @@ var Ant = React.createClass({
                         </div>
                     </div>
 
+                  <div className="movementID">
+                      {this.state.movementID}
+                  </div>
+
                 </div>);
     }
 });var App = React.createClass({
 
+    /** COMPONENT REFERENCE **/
+
+    // <Cell /> list
+    cells : [],
+
+    // <Cell />
+    currentCell : null,
+
+    // <Ant />
+    ant : null,
+
+    // <Console />
+    console : null,
+
+    /** **/
+
     movementID     : 0,
     movementLimit  : 11000,
-    speed          : 1000,
+    speed          : 0,
     timeoutHandler : null,
 
-    zoom : 100,
+    zoom : 10,
 
     side: {
         TOP    : 0,
@@ -170,14 +228,15 @@ var Ant = React.createClass({
         LEFT   : 3
     },
 
-    isStop: false,
-    isPlay: true,
+    isStop: true,
+    isPlay: false,
 
     getInitialState: function() {
+
         return {
             gridSize: {
-                x : 11,
-                y : 11
+                x : 100,
+                y : 100
             }
         };
     },
@@ -209,35 +268,29 @@ var Ant = React.createClass({
 
     draw: function() {
 
-        console.log('APP DRAWING');
-
-        var coords = this.ant;
-
-        console.log('ANT COORDS', coords);
-
-        console.log('CURRENT CELL', this.currentCell);
+        var coords = this.ant.state;
 
         if (this.currentCell.state.isBlack)
         {
-            if (this.ant.side === this.side.TOP)
+            if (this.ant.state.side === this.side.TOP)
             {
                 coords.y        -= 1;
                 coords.rotation  = 270;
                 coords.side      = this.side.LEFT;
             }
-            else if (this.ant.side === this.side.RIGHT)
+            else if (this.ant.state.side === this.side.RIGHT)
             {
                 coords.x        -= 1;
                 coords.rotation  = 0;
                 coords.side      = this.side.TOP;
             }
-            else if (this.ant.side === this.side.BOTTOM)
+            else if (this.ant.state.side === this.side.BOTTOM)
             {
                 coords.y        += 1;
                 coords.rotation  = 90;
                 coords.side      = this.side.RIGHT;
             }
-            else if (this.ant.side === this.side.LEFT)
+            else if (this.ant.state.side === this.side.LEFT)
             {
                 coords.x        += 1;
                 coords.rotation  = 180;
@@ -246,25 +299,25 @@ var Ant = React.createClass({
         }
         else
         {
-            if (this.ant.side == this.side.TOP)
+            if (this.ant.state.side == this.side.TOP)
             {
                 coords.y        += 1;
                 coords.rotation  = 90;
                 coords.side      = this.side.RIGHT;
             }
-            else if (this.ant.side == this.side.RIGHT)
+            else if (this.ant.state.side == this.side.RIGHT)
             {
                 coords.x        += 1;
                 coords.rotation  = 180;
                 coords.side      = this.side.BOTTOM;
             }
-            else if (this.ant.side == this.side.BOTTOM)
+            else if (this.ant.state.side == this.side.BOTTOM)
             {
                 coords.y        -= 1;
                 coords.rotation  = 270;
                 coords.side      = this.side.LEFT;
             }
-            else if (this.ant.side === this.side.LEFT)
+            else if (this.ant.state.side === this.side.LEFT)
             {
                 coords.x        -= 1;
                 coords.rotation  = 0;
@@ -272,23 +325,36 @@ var Ant = React.createClass({
             }
         }
 
-        // toggle cell color
-        var isBlack = this.currentCell.state.isBlack;
-
+        // toggle old cell state
         this.currentCell.setState({
-            isBlack: !isBlack
+            isBlack   : !this.currentCell.state.isBlack,
+            antIsHere : false
+        });
+
+        // update new cell
+        this.cells[coords.x][coords.y].setState({
+            antIsHere : true
         });
 
         // move ant
-        this.ant = coords;
+        this.ant.setState({
+            x : coords.x,
+            y : coords.y,
+            rotation : coords.rotation,
+            side : coords.side,
+            currentCell : this.cells[coords.x][coords.y]
+        });
 
-        this.movementID++;
+        // update console
+        this.console.setState({
+            movementID : ++this.console.state.movementID
+        });
     },
 
     /******************************** CONTROLS ********************************/
 
     play: function() {
-        this.timeoutHandler = setTimeout(this.draw, this.speed);
+        this.timeoutHandler = setInterval(this.draw, this.speed);
     },
 
     pause: function() {
@@ -309,12 +375,9 @@ var Ant = React.createClass({
         return (<div>
                   <Console App={this} />
                   <Grid App={this} />
-
-                  <div className="movementID">
-                      {this.movementID}
-                  </div>
                 </div>);
     }
 });
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
