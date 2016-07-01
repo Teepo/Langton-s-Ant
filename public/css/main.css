@@ -86,6 +86,8 @@ td.black {
 
     background-color: #fff;
     box-shadow: 1px 1px 1px #e0e0e0;
+
+    z-index: 10;
 }
 
 .console .coords {
