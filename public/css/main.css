@@ -1,34 +1,40 @@
-body {
-    margin:  0;
-    padding: 0;
-
+body
+{
     font-family: Arial;
     font-size: 16px;
 
+    margin: 0;
+    padding: 0;
+
     -webkit-font-smoothing: antialiased;
-    -moz-font-smoothing:    antialiased;
-    -o-font-smoothing:      antialiased;
-    -ms-font-smoothing:     antialiased;
-    font-smoothing:         antialiased;
+       -moz-font-smoothing: antialiased;
+         -o-font-smoothing: antialiased;
+        -ms-font-smoothing: antialiased;
+            font-smoothing: antialiased;
 }
 
-.table {
+.table
+{
     display: table;
 
-    width:   100%;
-    height:  100%;
+    width: 100%;
+    height: 100%;
 }
-.table .cell {
-    display:        table-cell;
+
+.table .cell
+{
+    display: table-cell;
 
     vertical-align: middle;
 }
 
-.grid {
+.grid
+{
     margin: 0 auto;
 }
 
-td {
+td
+{
     position: relative;
 
     padding: 20px;
@@ -38,67 +44,82 @@ td {
     border: 1px solid #000;
 }
 
-td.black {
+td.black
+{
     background-color: #000;
 }
 
-.ant {
+.ant
+{
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
 
-    background-image: url("/images/ant.svg");
+    background-image: url('/images/ant.svg');
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: 2em;
 }
 
-.ant._90 {
+.ant._90
+{
     transform: rotate(90deg);
 }
-.ant._180 {
+
+.ant._180
+{
     transform: rotate(180deg);
 }
-.ant._270 {
+
+.ant._270
+{
     transform: rotate(270deg);
 }
 
-.ant._-90 {
+.ant._-90
+{
     transform: rotate(-90deg);
 }
-.ant._-180 {
+
+.ant._-180
+{
     transform: rotate(-180deg);
 }
-.ant._-270 {
+
+.ant._-270
+{
     transform: rotate(-270deg);
 }
 
-.console {
+.console
+{
     position: fixed;
-    top:      0;
+    z-index: 10;
+    top: 0;
 
-    width:    100%;
-    height:   60px;
+    width: 100%;
+    height: 60px;
 
     text-align: center;
 
     background-color: #fff;
     box-shadow: 1px 1px 1px #e0e0e0;
-
-    z-index: 10;
 }
 
-.console .coords {
+.console .coords
+{
     display: inline-block;
 }
 
-.controls {
+.controls
+{
     float: right;
 }
 
-.controls .state {
+.controls .state
+{
     display: inline-block;
 
     width: 1em;
@@ -110,61 +131,78 @@ td.black {
     background-repeat: no-repeat;
 }
 
-.controls .playState {
-    background-image: url("/images/play.svg");
+.controls .playState
+{
+    background-image: url('/images/play.svg');
 }
 
-.controls .playState:hover {
-    background-image: url("/images/play_hover.svg");
+.controls .playState:hover
+{
+    background-image: url('/images/play_hover.svg');
 }
 
-.controls .pauseState {
-    background-image: url("/images/pause.svg");
+.controls .pauseState
+{
+    background-image: url('/images/pause.svg');
 }
 
-.controls .pauseState:hover {
-    background-image: url("/images/pause_hover.svg");
+.controls .pauseState:hover
+{
+    background-image: url('/images/pause_hover.svg');
 }
 
-.controls .stopState {
-    background-image: url("/images/square.svg");
+.controls .stopState
+{
+    background-image: url('/images/square.svg');
 }
 
-.controls .stopState:hover {
-    background-image: url("/images/square_hover.svg");
+.controls .stopState:hover
+{
+    background-image: url('/images/square_hover.svg');
 }
 
-.controls .nextState {
-    background-image: url("/images/next.svg");
-    background-size: cover;
+.controls .nextState
+{
     width: 1.5em;
+
+    background-image: url('/images/next.svg');
+    background-size: cover;
 }
 
-.controls .nextState:hover {
-    background-image: url("/images/next_hover.svg");
+.controls .nextState:hover
+{
+    background-image: url('/images/next_hover.svg');
 }
 
-.console input {
+.console input
+{
     margin-right: 50px;
 }
 
-.time, .movementID {
+.time,
+.movementID
+{
+    font-size: 1em;
+    font-weight: 700;
+
     position: absolute;
     left: 0;
 
     padding: 10px 30px;
 
     color: #fff;
-    font-size: 1em;
-    font-weight: 700;
 }
 
-.time {
+.time
+{
     top: 62px;
-    background-color: #007EFF;
+
+    background-color: #007eff;
 }
 
-.movementID {
+.movementID
+{
     top: 98px;
+
     background-color: tomato;
 }
