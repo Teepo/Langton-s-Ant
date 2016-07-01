@@ -134,6 +134,16 @@ td.black {
     background-image: url("/images/square_hover.svg");
 }
 
+.controls .nextState {
+    background-image: url("/images/next.svg");
+    background-size: cover;
+    width: 1.5em;
+}
+
+.controls .nextState:hover {
+    background-image: url("/images/next_hover.svg");
+}
+
 .console input {
     margin-right: 50px;
 }
