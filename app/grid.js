@@ -3,8 +3,8 @@ var Grid = React.createClass({
     getInitialState: function() {
         return {
             gridSize: {
-                x : 11,
-                y : 11
+                x : 100,
+                y : 100
             }
         };
     },
