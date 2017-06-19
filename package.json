@@ -1,14 +1,22 @@
 {
-    "scripts" : {
-
-        "start"        : "npm run js_maker & npm run sass_watcher & npm run server",
-
-        "server"       : "./node_modules/serve/bin/serve ./public/",
-        "js_maker"     : "webpack --progress --colors --watch",
-        "sass_watcher" : "sass --watch ./public/css/"
-    },
-    "dependencies" : {
-        "jade"  : "1.11.0",
-        "serve" : "1.4.0"
-    }
+  "scripts": {
+    "start": "npm run js_maker & npm run sass_watcher & npm run server",
+    "server": "./node_modules/serve/bin/serve.js ./public/",
+    "js_maker": "webpack --progress --colors --watch --debug",
+    "sass_watcher": "sass --watch ./public/css/",
+    "jsdoc": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.json"
+  },
+  "dependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-react": "^6.24.1",
+    "docdash": "^0.4.0",
+    "eslint": "^4.0.0",
+    "jsdoc": "^3.4.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "serve": "^5.2.2",
+    "webpack": "^3.0.0"
+  }
 }

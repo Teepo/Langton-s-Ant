@@ -1,30 +1,24 @@
 module.exports = {
-    entry: [
-        './app/Ant.jsx',
-        './app/Cell.jsx',
-        './app/Row.jsx',
-        './app/Grid.jsx',
-        './app/Console.jsx',
-        './app/App.jsx'
-    ],
+    entry : './src/App.js',
     output: {
-        path: './public/js',
-        filename: 'bundle.js'
+        path: __dirname + '/public/js/',
+        filename: 'bundle.js',
+        library: 'App'
     },
 
     resolve: {
-        extensions: [
-            "",
-            ".js",
-            ".json"
-        ]
+        extensions: [".js"]
     },
 
     module: {
         loaders: [
             {
-                test : /\.jsx?/,
-                loader : 'babel'
+                test : /\.js?/,
+                exclude: /node_modules/,
+                loader : 'babel-loader',
+                query: {
+                    presets: ['env']
+                }
             }
         ]
     }

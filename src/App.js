@@ -1,88 +1,67 @@
-import Grid    from './Grid.jsx';
-import Console from './Console.jsx';
+import React    from 'react';
+import ReactDOM from 'react-dom';
 
-var App = React.createClass({
+import { Grid    } from './Grid';
+import { Console } from './Console';
 
-    /** COMPONENT REFERENCE **/
+class App extends React.Component {
 
-    // <Cell /> list
-    cells : [],
+    constructor(props) {
 
-    // <Cell />
-    currentCell : null,
+        super(props);
 
-    // <Ant />
-    ant : null,
+        /** COMPONENT REFERENCE **/
 
-    // <Console />
-    console : null,
+        // <Cell /> list
+        this.cells = [];
 
-    /** **/
+        // <Cell />
+        this.currentCell = null;
 
-    movementID     : 0,
-    movementLimit  : 11000,
-    speed          : 0,
+        // <Ant />
+        this.ant = null;
 
-    timeoutHandler : null,
-    timerHandler   : null,
+        // <Console />
+        this.console = null;
 
-    zoom : 10,
+        this.movementID     = 0;
+        this.movementLimit  = 11000;
+        this.speed          = 0;
 
-    side: {
-        TOP    : 0,
-        RIGHT  : 1,
-        BOTTOM : 2,
-        LEFT   : 3
-    },
+        this.timeoutHandler = null;
+        this.timerHandler   = null;
 
-    isStop: true,
-    isPlay: false,
+        this.zoom = 60;
 
-    getInitialState: function() {
+        this.side = {
+            TOP    : 0,
+            RIGHT  : 1,
+            BOTTOM : 2,
+            LEFT   : 3
+        };
 
-        return {
+        this.isStop = true;
+        this.isPlay = false;
+
+        this.state = {
+
             gridSize: {
-                x : 100,
-                y : 100
+                x : 50,
+                y : 50
             }
         };
-    },
+    }
 
-    componentDidMount: function() {
-
-        document.querySelector('.grid').style.zoom = parseInt(this.zoom) / 100;
-
-        if (this.isPlay)
-            this.play();
-    },
-
-    componentDidUpdate: function() {
-
-        if ((this.movementID >= this.movementLimit)
-           || !this.isPlay)
-        {
-            this.pause();
-            return false;
-        }
-
-        this.play();
-    },
-
-    componentWillUnmount: function() {
-
-        this.pause();
-    },
-
-    timer: function() {
+    timer() {
 
         this.console.setState({
             timeElapsed : ++this.console.state.timeElapsed
         });
-    },
+    }
 
-    draw: function() {
+    draw() {
 
-        var coords = this.ant.state;
+        const coords = this.ant.state;
 
         if (this.currentCell.state.isBlack)
         {
@@ -163,25 +142,31 @@ var App = React.createClass({
         this.console.setState({
             movementID : ++this.console.state.movementID
         });
-    },
+    }
 
     /******************************** CONTROLS ********************************/
 
-    play: function() {
-        this.timeoutHandler = setInterval(this.draw, this.speed);
-        this.timerHandler = setInterval(this.timer, 1000);
-    },
+    play() {
 
-    nextState: function() {
+        this.timeoutHandler = setInterval(() => {
+            this.draw();
+        }, this.speed);
+
+        this.timerHandler = setInterval(() => {
+            this.timer();
+        }, 1000);
+    }
+
+    nextState() {
         this.draw();
-    },
+    }
 
-    pause: function() {
+    pause() {
         clearInterval(this.timeoutHandler);
         clearInterval(this.timerHandler);
-    },
+    }
 
-    stop: function() {
+    stop() {
 
         clearInterval(this.timeoutHandler);
         clearInterval(this.timerHandler);
@@ -190,17 +175,14 @@ var App = React.createClass({
         this.isStop = true;
 
         this.render();
-    },
-
-    /******************************* END CONTROLS *****************************/
-
-    render: function() {
-
-        return (<div>
-                  <Console App={this} />
-                  <Grid App={this} />
-                </div>);
     }
-});
+
+    render() {
+        return <div>
+                   <Console App={this} />
+                   <Grid App={this} />
+               </div>;
+    }
+}
 
 ReactDOM.render(<App />, document.getElementById('app'));
