@@ -1,9 +1,8 @@
-import React    from 'react';
-import ReactDOM from 'react-dom';
+import { h, Component } from 'preact';
 
 import { Rows } from './Rows';
 
-export class Grid extends React.Component {
+export class Grid extends Component {
 
     constructor() {
 
@@ -12,8 +11,8 @@ export class Grid extends React.Component {
         this.state = {
 
             gridSize: {
-                x : 50,
-                y : 50
+                x : 100,
+                y : 100
             }
         };
     }

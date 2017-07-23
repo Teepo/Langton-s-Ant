@@ -1,35 +1,33 @@
-import React    from 'react';
-import ReactDOM from 'react-dom';
+import { h, Component } from 'preact';
 
-export class Ant extends React.Component {
+export class Ant extends Component {
 
     constructor(props) {
 
         super(props);
 
         this.state = {
-            x           : 20,
-            y           : 20,
+            x           : 50,
+            y           : 50,
             rotation    : 0,
-            side        : 0,
-            currentCell : this.props.cell
+            side        : 0
         };
     }
 
     render() {
 
-        if ((this.state.currentCell.state.coords.x === this.state.x
-           && this.state.currentCell.state.coords.y === this.state.y)
+        if ((this.props.cell.state.coords.x === this.state.x
+           && this.props.cell.state.coords.y === this.state.y)
 
-           || this.state.currentCell.state.antIsHere === true) {
+           || this.props.cell.state.antIsHere === true) {
 
-            this.props.App.currentCell = this.state.currentCell;
+            this.props.App.currentCell = this.props.cell;
             this.props.App.currentCell.state.antIsHere = true;
 
             this.props.App.ant = this;
         }
         else {
-            return false;
+            return;
         }
 
         const __antClassName = "ant _" + this.state.rotation;

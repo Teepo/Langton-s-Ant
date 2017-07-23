@@ -1,9 +1,8 @@
-import React    from 'react';
-import ReactDOM from 'react-dom';
+import { h, Component } from 'preact';
 
 import { Cell } from './Cell';
 
-export class Row extends React.Component {
+export class Row extends Component {
 
     constructor(props) {
 

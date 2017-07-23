@@ -1,8 +1,11 @@
-import React    from 'react';
-import ReactDOM from 'react-dom';
+import { h, Component } from 'preact';
 
-export class Console extends React.Component {
+export class Console extends Component {
 
+    /**
+     * @param {Object} props
+     *
+     */
     constructor(props) {
 
         super(props);
@@ -18,9 +21,12 @@ export class Console extends React.Component {
 
         // store reference in <App />
         this.props.App.console = this;
+
+        this.updateZoom();
     }
 
     /**
+     * @param {Object} event
      *
      * @listens change
      */
@@ -39,9 +45,16 @@ export class Console extends React.Component {
      *
      * @listens change
      */
-    onChangeZoom(event) {
+    onChangeZoom() {
 
-        document.querySelector('.grid').style.zoom = parseInt(event.target.value) / 100;
+        this.updateZoom();
+    }
+
+    updateZoom() {
+
+        const value = document.querySelector('input[name="zoom"]').value;
+
+        document.querySelector('.grid').style.zoom = parseInt(value) / 100;
     }
 
     /**
@@ -97,7 +110,7 @@ export class Console extends React.Component {
 
                             <div className="controls">
 
-                              ZOOM = <input type="number" onChange={this.onChangeZoom.bind(this)} defaultValue={this.props.App.zoom} />
+                              ZOOM = <input type="number" name="zoom" onChange={this.onChangeZoom.bind(this)} defaultValue={this.props.App.zoom} />
 
                               <div className={playStateClassName} onClick={this.onPlayClickEvent.bind(this)}></div>
                               <div className="stopState state"    onClick={this.onStopClickEvent.bind(this)}></div>

@@ -1,10 +1,9 @@
-import React    from 'react';
-import ReactDOM from 'react-dom';
+import { h, render, Component } from 'preact';
 
 import { Grid    } from './Grid';
 import { Console } from './Console';
 
-class App extends React.Component {
+class App extends Component {
 
     constructor(props) {
 
@@ -31,7 +30,7 @@ class App extends React.Component {
         this.timeoutHandler = null;
         this.timerHandler   = null;
 
-        this.zoom = 60;
+        this.zoom = 13;
 
         this.side = {
             TOP    : 0,
@@ -46,8 +45,8 @@ class App extends React.Component {
         this.state = {
 
             gridSize: {
-                x : 50,
-                y : 50
+                x : 100,
+                y : 100
             }
         };
     }
@@ -119,24 +118,19 @@ class App extends React.Component {
         }
 
         // toggle old cell state
-        this.currentCell.setState({
+        this.updateCurrentCell({
             isBlack   : !this.currentCell.state.isBlack,
             antIsHere : false
-        });
-
-        // update new cell
-        this.cells[coords.x][coords.y].setState({
-            antIsHere : true
-        });
-
-        // move ant
-        this.ant.setState({
-            x : coords.x,
-            y : coords.y,
+        })
+        .then(this.updateCell.bind(this, coords.x, coords.y, {
+                antIsHere : true
+        }))
+        .then(this.updateAnt.bind(this, {
+            x        : coords.x,
+            y        : coords.y,
             rotation : coords.rotation,
-            side : coords.side,
-            currentCell : this.cells[coords.x][coords.y]
-        });
+            side     : coords.side,
+        }));
 
         // update console
         this.console.setState({
@@ -177,6 +171,46 @@ class App extends React.Component {
         this.render();
     }
 
+    /**
+     * @param {Object} state
+     *
+     * @return {Promise}
+     */
+    updateCurrentCell(state) {
+
+        return new Promise(resolve => {
+            this.currentCell.setState(state, resolve);
+        });
+    }
+
+    /**
+     * @param {Number} x
+     * @param {Number} y
+     * @param {Object} state
+     *
+     * @return {Promise}
+     */
+    updateCell(x, y, state) {
+
+        return new Promise(resolve => {
+
+            this.cells[x][y].setState(state, resolve);
+        });
+    }
+
+    /**
+     * @param {Object} state
+     *
+     * @return {Promise}
+     */
+    updateAnt(state) {
+
+        return new Promise(resolve => {
+
+            this.ant.setState(state, resolve);
+        });
+    }
+
     render() {
         return <div>
                    <Console App={this} />
@@ -185,4 +219,4 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+render(<App />, document.getElementById('app'));
