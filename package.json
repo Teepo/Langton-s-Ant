@@ -8,14 +8,14 @@
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^9.1.0",
     "babel-preset-env": "^1.7.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
-    "docdash": "^1.2.0",
-    "eslint": "^7.10.0",
-    "jsdoc": "^3.6.6",
-    "preact": "^10.5.4",
-    "serve": "^11.3.2",
-    "webpack": "^4.44.2"
+    "docdash": "^2.0.0",
+    "eslint": "^8.29.0",
+    "jsdoc": "^4.0.0",
+    "preact": "^10.11.3",
+    "serve": "^14.1.2",
+    "webpack": "^5.75.0"
   }
 }
